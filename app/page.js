@@ -1,10 +1,44 @@
-import { Suspense } from "react";
-import HomeClient from "@/components/HomeContent";
+"use client";
 
-export default function Page() {
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import Slider from "@/components/Slider";
+import ProductGrid from "@/components/ProductGrid";
+import CategoryGrid from "@/components/CategoryGrid";
+import { products } from "@/app/data/products";
+
+export default function Home() {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const searchParams = useSearchParams();
+const type = searchParams.get("type") ;
+
+const allowedTypes = ["trendy", "newcollection"];
+
+  // ✅ Corrected: added parentheses after trim()
+
+const filteredProducts = products.filter(
+  (p) =>
+    allowedTypes.includes(p.type?.toLowerCase().trim()) &&
+    (!type || p.type?.toLowerCase().trim() === type.toLowerCase().trim())
+);
+
   return (
-    <Suspense fallback={<p className="text-center py-10">Loading…</p>}>
-      <HomeClient />
-    </Suspense>
+    <>
+      <Slider />
+      <section className="max-w-7xl mx-auto px-6 py-5">
+        <CategoryGrid onSelect={setSelectedCategory} />
+
+        <h2 className="text-3xl font-bold mb-10 text-gray-800">
+          Trendy products
+        </h2>
+
+        {/* ✅ Show filtered products when available */}
+        {filteredProducts.length > 0 ? (
+          <ProductGrid products={filteredProducts} />
+        ) : (
+          <p className="text-gray-500">No products found in this category.</p>
+        )}
+      </section>
+    </>
   );
 }
