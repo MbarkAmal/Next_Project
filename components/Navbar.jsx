@@ -9,16 +9,16 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href='/'>
-        <h1 className="text-2xl font-bold text-indigo-600">Grinato</h1>
+        <h1 className="text-2xl font-bold text-blue-600">Grinato</h1>
         </Link>
         {/* Search Bar */}
         <div className="hidden md:flex w-1/2">
           <input
             type="text"
             placeholder="Search products..."
-            className="w-full border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button className="bg-indigo-600 text-white px-4 rounded-r-md hover:bg-indigo-700">
+          <button className="bg-blue-600 text-white px-4 rounded-r-md hover:bg-blue-700">
             Search
           </button>
         </div>
@@ -27,7 +27,7 @@ export default function Navbar() {
         <div className="flex items-center space-x-6">
           <button className="relative">
             <ShoppingCart className="w-6 h-6 text-gray-700" />
-            <span className="absolute -top-2 -right-2 bg-indigo-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
               3
             </span>
           </button>
