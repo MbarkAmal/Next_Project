@@ -76,7 +76,7 @@ export default function Navbar() {
                             {item.name}
                           </p>
                           <p className="text-gray-500 text-sm">
-                            {item.price} € × {item.quantity}
+                            {item.price} dt × {item.quantity}
                           </p>
                         </div>
                       </div>

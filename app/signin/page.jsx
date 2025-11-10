@@ -20,23 +20,22 @@ export default function SignInPage() {
     );
 
     if (foundUser) {
-      // ✅ Save fake login session (optional)
+      //  Save fake login session (optional)
       localStorage.setItem("user", JSON.stringify(foundUser));
 
-      // ✅ Redirect to home page
       router.push("/");
 
       // Clear error
       setError("");
     } else {
-      setError("❌ Invalid email or password");
+      setError(" Invalid email or password");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white shadow-md rounded-xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6 text-indigo-600">
+        <h2 className="text-2xl font-bold text-center mb-6 text-[#162660]">
           Sign In
         </h2>
 
@@ -59,7 +58,7 @@ export default function SignInPage() {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition"
+            className="w-full bg-[#162660] text-white py-3 rounded-xl font-semibold   transition"
           >
             Sign In
           </button>
@@ -68,10 +67,10 @@ export default function SignInPage() {
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
         <div className="flex justify-center gap-6 text-gray-500 mt-5 text-sm">
-          <a href="/signup" className="text-indigo-600 font-medium hover:underline">
+          <a href="/signup" className="text-[#162660] font-medium hover:underline">
             Sign Up
           </a>
-          <a href="/forgot-password" className="text-indigo-600 font-medium hover:underline">
+          <a href="/forgot-password" className="text-[#162660] font-medium hover:underline">
             Forgot Password
           </a>
         </div>

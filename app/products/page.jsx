@@ -29,7 +29,7 @@ export default function Products() {
         {category && (
           <a
             href="/products"
-            className="text-sm text-indigo-600 hover:underline"
+            className="text-sm text-[#162660] hover:underline"
           >
             Clear Filter
           </a>
@@ -40,7 +40,7 @@ export default function Products() {
       {filteredProducts.length > 0 ? (
         <ProductGrid products={filteredProducts} />
       ) : (
-        <p className="text-gray-500">
+        <p className="text-gray-700">
           No products found for category "{category}".
         </p>
       )}

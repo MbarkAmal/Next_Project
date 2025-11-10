@@ -14,12 +14,12 @@ export default function CategoryCard({ category }) {
         className="cursor-pointer flex flex-col items-center justify-center transition-all p-6 text-center"
       >
         {/* Icon Circle */}
-        <div className="w-20 h-20 flex items-center justify-center rounded-full bg-indigo-50 text-indigo-600 mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+        <div className="w-20 h-20 flex items-center justify-center rounded-full bg-indigo-50 text-[#162660] mb-4 group-hover:bg-[#162660] group-hover:text-[#D0E6FD] transition-all duration-300">
           {Icon && <Icon size={40} strokeWidth={1.5} />}
         </div>
 
         {/* Category Name */}
-        <h3 className="text-lg font-semibold text-gray-800 group-hover:text-indigo-600 transition-colors">
+        <h3 className="text-lg font-semibold text-[#162660]  transition-colors">
           {category.name}
         </h3>
 

@@ -6,6 +6,7 @@ import Slider from "@/components/Slider";
 import ProductGrid from "@/components/ProductGrid";
 import CategoryGrid from "@/components/CategoryGrid";
 import { products } from "@/app/data/products";
+import Gallery from "@/components/Gallery";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -28,7 +29,11 @@ const filteredProducts = products.filter(
       <section className="max-w-7xl mx-auto px-6 py-5">
         <CategoryGrid onSelect={setSelectedCategory} />
 
-        <h2 className="text-3xl font-bold mb-10 text-gray-800">
+      
+      {/* gallery section */}
+      <Gallery />
+      
+              <h2 className=" py-10 text-3xl font-bold mb-10 text-[#162660]">
           Trendy products
         </h2>
 

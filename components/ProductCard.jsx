@@ -20,7 +20,7 @@ export default function ProductCard({ product }) {
 
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
           <button   onClick={() => addToCart(product)}
-           className="flex items-center gap-2 bg-white text-indigo-600 font-semibold px-6 py-2 rounded-full hover:bg-indigo-600 hover:text-white transition-all duration-300">
+           className="flex items-center gap-2 bg-white text-[#162660] font-semibold px-6 py-2 rounded-full hover:bg-[#162660] hover:text-white transition-all duration-300">
             <ShoppingCart size={18}  />
             Add to Cart
           </button>
@@ -36,11 +36,11 @@ export default function ProductCard({ product }) {
        {/* <p className="text-gray-500 text-sm mb-3 line-clamp-2">
           {product.description || "High-quality and stylish product."}
         </p> */}
-        <p className="text-indigo-600 font-bold text-xl">{product.price} dt</p>
+        <p className="text-[#162660] font-bold text-xl">{product.price} dt</p>
       </div>
 </Link>
       {/* Decorative gradient bottom border */}
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-all duration-500" />
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#D0E6FD]  to-purple-500 opacity-0 group-hover:opacity-100 transition-all duration-500" />
     </div>
     
   );
