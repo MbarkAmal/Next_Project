@@ -1,149 +1,159 @@
-
 export const products = [
   {
     id: "1",
     name: "Wireless Headphones",
     price: 99.99,
     image: "/casq.jpg",
-    description: "Experience the best sound quality with noise cancellation.",
+    description: "High-quality wireless headphones with noise cancellation and long battery life.",
     category: "accessory",
     type: "trendy",
-  colors: [
-    {
-      name: "Black",
-      image:"/casq1.jpg"
-    }, {
-      name: "Silver",
-      image: "/casq5.jpg"
-     },{
-      name: "Gold",
-      image:"/casq6.jpg"
-    }
-  ],
-  sizes: []
+    colors: [
+      { name: "Black", image: "/casq1.jpg" },
+      { name: "Silver", image: "/casq5.jpg" },
+      { name: "Gold", image: "/casq6.jpg" },
+    ],
+    sizes: [],
   },
-{
-  id: "2",
-  name: "Smart Watch",
-  price: 149.99,
-  image: "/pull1.png",
-  description: "Track your fitness and stay connected all day.",
-  category: "Homme",
-  type: "trendy",
-  colors: [
-    {
-      name: "Black",
-      hex: "#000000",
-      image:"/pull1.png"
-    }, {
-      name: "Silver",
-      hex: "#C0C0C0",
-      image: "/pull1.png"
-     },{
-      name: "Gold",
-      hex: "#FFD700",
-      image:"/pull1.png"
-    }
-  ],
-  sizes: ["S", "M", "L", "XL"]
-}
-,
+  {
+    id: "2",
+    name: "Smart Watch Pro",
+    price: 149.99,
+    image: "/pull1.png",
+    description: "Track your fitness, monitor your health, and stay connected in style.",
+    category: "Homme",
+    type: "trendy",
+    colors: [
+      { name: "Black", image: "/pull1.png" },
+      { name: "Silver", image: "/pull2.png" },
+      { name: "Gold", image: "/pull3.png" },
+    ],
+    sizes: ["S", "M", "L", "XL"],
+  },
   {
     id: "3",
-    name: "Cat Ear Wireless Bluetooth",
+    name: "Cat Ear Bluetooth Headphones",
     price: 59.99,
     image: "/casq2.jpg",
-    description: "Ergonomic design with RGB lighting and precision control.",
+    description: "Fun cat ear design with RGB lighting and immersive stereo sound.",
     category: "accessory",
-    type : "newcollection",
-      colors: [
-    {
-      name: "Black",
-      hex: "#000000",
-      image:"/casq3.jpg"
-    }, {
-      name: "Silver",
-      hex: "#C0C0C0",
-      image: "/casq4.jpg"
-     }
-  ],
-  sizes: []
-
+    type: "newcollection",
+    colors: [
+      { name: "Black", image: "/casq3.jpg" },
+      { name: "Silver", image: "/casq4.jpg" },
+    ],
+    sizes: [],
   },
-    {
+  {
     id: "4",
-    name: "Gaming Mouse",
-    price: 59.99,
-    image: "/sac.jpg",
-    description: "Ergonomic design with RGB lighting and precision control.",
+    name: "Ergo Gaming Mouse",
+    price: 49.99,
+    image: "/mouse1.jpg",
+    description: "Lightweight gaming mouse with adjustable DPI and RGB lighting.",
     category: "Homme",
-    type : "newcollection"
+    type: "newcollection",
+    colors: [
+      { name: "Black", image: "/mouse1.jpg" },
+      { name: "White", image: "/mouse2.jpg" },
+    ],
+    sizes: [],
   },
-    {
+  {
     id: "5",
-    name: "Sac",
-    price: 59.99,
+    name: "Leather Travel Bag",
+    price: 89.99,
     image: "/sac.jpg",
-    description: "Ergonomic design with RGB lighting and precision control.",
+    description: "Stylish leather travel bag with spacious compartments for daily use.",
     category: "accessory",
+    type: "classic",
+    colors: [
+      { name: "Brown", image: "/sac.jpg" },
+      { name: "Black", image: "/sac2.jpg" },
+    ],
+    sizes: [],
   },
-    {
+  {
     id: "6",
-    name: "Gaming Mouse",
-    price: 59.99,
+    name: "Knitted Sweater",
+    price: 69.99,
     image: "/pull4.jpg",
-    description: "Ergonomic design with RGB lighting and precision control.",
+    description: "Soft and cozy sweater perfect for casual and elegant looks.",
     category: "femme",
+    type: "newcollection",
+    colors: [
+      { name: "Beige", image: "/pull4.jpg" },
+      { name: "White", image: "/pull5.jpg" },
+    ],
+    sizes: ["S", "M", "L", "XL"],
   },
-    {
+  {
     id: "7",
-    name: "Shoes",
-    price: 59.99,
+    name: "Running Shoes",
+    price: 99.99,
     image: "/shoes2.jpg",
-    description: "Ergonomic design with RGB lighting and precision control.",
+    description: "Lightweight running shoes designed for comfort and performance.",
     category: "accessory",
+    type: "sport",
+    colors: [
+      { name: "White", image: "/shoes2.jpg" },
+      { name: "Black", image: "/shoes3.jpg" },
+    ],
+    sizes: ["38", "39", "40", "41", "42", "43"],
   },
-    {
+  {
     id: "8",
-    name: "Gaming Mouse",
-    price: 59.99,
+    name: "Casual Sneakers",
+    price: 79.99,
     image: "/shoes3.jpg",
-    description: "Ergonomic design with RGB lighting and precision control.",
+    description: "Trendy sneakers for everyday wear with breathable fabric.",
     category: "Homme",
+    type: "trendy",
+    colors: [
+      { name: "White", image: "/shoes3.jpg" },
+      { name: "Blue", image: "/shoes4.jpg" },
+    ],
+    sizes: ["39", "40", "41", "42", "43", "44"],
   },
-      {
+  {
     id: "9",
-    name: "Gaming Mouse",
-    price: 59.99,
+    name: "Aviator Sunglasses",
+    price: 45.99,
     image: "/glasses.jpg",
-    description: "Ergonomic design with RGB lighting and precision control.",
+    description: "Classic aviator sunglasses with UV protection lenses.",
     category: "accessory",
+    type: "classic",
+    colors: [
+      { name: "Black", image: "/glasses.jpg" },
+      { name: "Silver", image: "/glasses1.jpg" },
+    ],
+    sizes: [],
   },
-      {
+  {
     id: "10",
-    name: "Gaming Mouse",
-    price: 59.99,
+    name: "Round Frame Glasses",
+    price: 39.99,
     image: "/glasses1.jpg",
-    description: "Ergonomic design with RGB lighting and precision control.",
+    description: "Lightweight round frame glasses for a minimalist, modern look.",
     category: "accessory",
+    type: "newcollection",
+    colors: [
+      { name: "Black", image: "/glasses1.jpg" },
+      { name: "Brown", image: "/glasses2.jpg" },
+    ],
+    sizes: [],
   },
-   {
+  {
     id: "11",
-    name: "YSL Lipstick",
-    price: 70.00,
+    name: "YSL Rouge Pur Couture Lipstick",
+    price: 70.0,
     image: "/rouge1.jpg",
-    description: "Experience the best sound quality with noise cancellation.",
+    description: "Luxurious lipstick with intense color and silky finish.",
     category: "beauty",
     type: "trendy",
-  colors: [
-    {
-      name: "Black",
-      image:"/rouge.jpg"
-    }, {
-      name: "Silver",
-      image: "/rouge2.jpg"
-     }
-  ],
-  sizes: []
+    colors: [
+      { name: "Crimson Red", image: "/rouge1.jpg" },
+      { name: "Rose Pink", image: "/rouge2.jpg" },
+      { name: "Nude Beige", image: "/rouge3.jpg" },
+    ],
+    sizes: [],
   },
 ];

@@ -25,7 +25,7 @@ export default function SignUp() {
             <label className="block text-gray-600 mb-2">Email</label>
             <input
               type="email"
-              placeholder="example@email.com"
+              placeholder="your@email.com"
               className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>

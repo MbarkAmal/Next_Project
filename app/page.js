@@ -32,7 +32,7 @@ const filteredProducts = products.filter(
           Trendy products
         </h2>
 
-        {/* ✅ Show filtered products when available */}
+        {/*  Show filtered products when available */}
         {filteredProducts.length > 0 ? (
           <ProductGrid products={filteredProducts} />
         ) : (

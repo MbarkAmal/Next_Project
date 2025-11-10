@@ -5,8 +5,11 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { products } from "@/app/data/products";
+import { useCart } from "@/context/CartContext";
 
 export default function ProductDetail() {
+      const { addToCart } = useCart();
+  
   const { id } = useParams();
   const product = products.find((p) => p.id === id);
 const [isLiked, setIsLiked] = useState(false);
@@ -124,7 +127,9 @@ const [selectedColor, setSelectedColor] = useState(null);
           </div>
         )}
 
-     <button className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+     <button
+     onClick={() => addToCart(product)}
+      className="w-full bg-[#162660] text-white px-6 py-3 rounded-lg font-semibold transition">
   Add to Cart
 </button>
 
