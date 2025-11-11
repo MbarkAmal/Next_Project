@@ -23,31 +23,30 @@ npm install framer-motion  //motion library for React to create smooth animation
 
 ecommerce/
 │
-├── app/                             # Next.js App Router
-│   ├── layout.jsx                   # Main layout (Navbar, Footer, productGrid.)
-│   ├── page.jsx                     # Home page
+├── app/                             
+│   ├── layout.jsx                   
+│   ├── page.jsx                     
 │   ├── signup/
-│   │   └── page.jsx                 # Signup page
+│   │   └── page.jsx                 
 │   ├── signin/
-│   │   └── page.jsx                 # Login page
+│   │   └── page.jsx                 
 │   ├── products/
-│   │   ├── page.jsx                 # Product listing page shows all or filtered products 
-│   │   └── [id]/page.jsx            # Product details by ID
+│   │   ├── page.jsx                 
+│   │   └── [id]/page.jsx            
 │   ├── panier/
-│   │   └── page.jsx                 # Shopping cart page
+│   │   └── page.jsx                 
 │   ├── checkout/
-│   │   └── page.jsx                 # Checkout page
+│   │   └── page.jsx                 
 │   ├── profile/
-│   │   └── page.jsx                 # User profile
-│   ├── data/                         # Server-side API routes (Next.js server functions)
-│   │   ├── products.js				#products data
+│   │   └── page.jsx                 
+│   ├── data/                         
+│   │   ├── products.js				
 │   │   │                
-│   │   ├── users.js					#users data (exemples)
+│   │   ├── users.js					
 │   │   
 │   │                     
-│   └── globals.css                  # Global styles
+│   └── globals.css                  
 │
-├── components/                      # Reusable UI components
 │   ├── Navbar.jsx
 │   ├── Footer.jsx
 │   ├── ProductCard.jsx
@@ -58,25 +57,19 @@ ecommerce/
 │   ├── Gallery.jsx
 │   
 │
-├── context/                         # React Contexts (global states)
+├── context/                        
 │   ├── CartContext.jsx
 │   └── AuthContext.jsx
 │
-├── public/                          # Static files (images, icons, etc.)
-├── .env.local                       # Environment variables (DB_URL, JWT_SECRET, etc.)
-├── next.config.mjs                  # Next.js configuration
+├── public/                          
+├── .env.local                      
+├── next.config.mjs                 
 ├── package.json
-├── tailwind.config.js               # Tailwind config 
+├── tailwind.config.js               
 └── README.md
 
 
 
-RootLayout
-└─ CartProvider (holds cart state)
-   ├─ Navbar  ← reads cart to show badge count
-   ├─ Product Listing Page
-   │   └─ ProductCard(s)  ← calls addToCart() on click
-   └─ Panier Page         ← reads cart, shows full items, total, quantities
 
 
 ![home](/public/cap1.png)
