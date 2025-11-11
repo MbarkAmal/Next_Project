@@ -15,7 +15,7 @@ const type = searchParams.get("type") ;
 
 const allowedTypes = ["trendy", "newcollection"];
 
-  // ✅ Corrected: added parentheses after trim()
+  //  Corrected: added parentheses after trim()
 
 const filteredProducts = products.filter(
   (p) =>
@@ -34,7 +34,7 @@ const filteredProducts = products.filter(
       <Gallery />
       
               <h2 className=" py-10 text-3xl font-bold mb-10 text-[#162660]">
-          Trendy products
+          Trendy products 
         </h2>
 
         {/*  Show filtered products when available */}
