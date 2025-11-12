@@ -9,6 +9,12 @@ It makes React production-ready, faster, and SEO-friendly.
 
 It allows developers to focus on building applications instead of configuring tools.
 
+Overview
+![home](/public/cap1.png)
+
+![cart](/public/cap2.png)
+
+
 🗂️ Project Structure
 
 ecommerce/
@@ -83,8 +89,5 @@ ecommerce/
 
 
 
-![home](/public/cap1.png)
 
-![cart](/public/cap2.png)
 
-![product](/public/cap3.png)
