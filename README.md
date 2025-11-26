@@ -1,86 +1,93 @@
 #  E-commerce Project (Next.js + Tailwind CSS)
 A modern, responsive **e-commerce web application** built with **Next.js**, **Tailwind CSS**, **Lucide Icons**, and **Framer Motion**.  
 
-why Next.js:
-	Next.js is a framework built on top of React
-	Next.js makes React production-ready, faster, and SEO-friendly, while letting you focus on building your app instead of configuring tools.
-	
-## 🚀 Project Setup
+💡 Why Next.js?
 
-npx create-next-app@latest ecommerce  /// create new next.js project
-npm run dev 	Start the development server
+Next.js is a framework built on top of React.
 
-**Setup Tailwind CSS
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
+It makes React production-ready, faster, and SEO-friendly.
 
-**Install UI Libraries
-npm install lucide-react    //open-source React icons
+It allows developers to focus on building applications instead of configuring tools.
 
-npm install framer-motion  //motion library for React to create smooth animations and transitions.
+Overview
+![home](/public/cap1.png)
+
+![cart](/public/cap2.png)
 
 
+🗂️ Project Structure
 
 ecommerce/
 │
-├── app/                             # Next.js App Router
-│   ├── layout.jsx                   # Main layout (Navbar, Footer, productGrid.)
-│   ├── page.jsx                     # Home page
+├── app/                             
+│   ├── layout.jsx                   
+│   ├── page.jsx                     
+│   │
 │   ├── signup/
-│   │   └── page.jsx                 # Signup page
+│   │   └── page.jsx                 
+│   │
 │   ├── signin/
-│   │   └── page.jsx                 # Login page
+│   │   └── page.jsx                 
+│   │
 │   ├── products/
-│   │   ├── page.jsx                 # Product listing page shows all or filtered products 
-│   │   └── [id]/page.jsx            # Product details by ID
+│   │   ├── page.jsx                 
+│   │   └── [id]/page.jsx            
+│   │
 │   ├── panier/
-│   │   └── page.jsx                 # Shopping cart page
+│   │   └── page.jsx                 
+│   │
 │   ├── checkout/
-│   │   └── page.jsx                 # Checkout page
+│   │   └── page.jsx                 
+│   │
 │   ├── profile/
-│   │   └── page.jsx                 # User profile
-│   ├── data/                         # Server-side API routes (Next.js server functions)
-│   │   ├── products.js				#products data
-│   │   │                
-│   │   ├── users.js					#users data (exemples)
-│   │   
-│   │                     
-│   └── globals.css                  # Global styles
+│   │   └── page.jsx                 
+│   │
+│   ├── data/                         
+│   │   ├── products.js				
+│   │   └── users.js					
+│   │
+│   └── globals.css                  
 │
-├── components/                      # Reusable UI components
+├── components/
 │   ├── Navbar.jsx
 │   ├── Footer.jsx
 │   ├── ProductCard.jsx
 │   ├── ProductGrid.jsx
 │   ├── CategoryCard.jsx
-│   ├── CartegoryGrid.jsx
+│   ├── CategoryGrid.jsx
 │   ├── Slider.jsx
-│   ├── Gallery.jsx
-│   
+│   └── Gallery.jsx
 │
-├── context/                         # React Contexts (global states)
+├── context/                        
 │   ├── CartContext.jsx
 │   └── AuthContext.jsx
 │
-├── public/                          # Static files (images, icons, etc.)
-├── .env.local                       # Environment variables (DB_URL, JWT_SECRET, etc.)
-├── next.config.mjs                  # Next.js configuration
+├── public/                          
+│
+├── .env.local                      
+├── next.config.mjs                 
 ├── package.json
-├── tailwind.config.js               # Tailwind config 
+├── tailwind.config.js               
 └── README.md
 
+🧠 Technologies Used
+
+| Category                 | Technologies                                         |
+| ------------------------ | ---------------------------------------------------- |
+| **Framework**            | [Next.js](https://nextjs.org/)                       |
+| **Frontend Library**     | [React.js](https://react.dev/)                       |
+| **Styling**              | [Tailwind CSS](https://tailwindcss.com/)             |
+| **UI & Icons**           | [Lucide React](https://lucide.dev/)                  |
+| **Animations**           | [Framer Motion](https://www.framer.com/motion/)      |
+| **Package Manager**      | [npm](https://www.npmjs.com/)                        |
+| **Runtime Environment**  | [Node.js](https://nodejs.org/)                       |
+| **Version Control**      | [Git](https://git-scm.com/)                          |
+| **Hosting / Repository** | [GitHub](https://github.com/)                        |
+| **Code Editor**          | [Visual Studio Code](https://code.visualstudio.com/) |
+| **Browser for Testing**  | Chrome / Edge                                        |
 
 
-RootLayout
-└─ CartProvider (holds cart state)
-   ├─ Navbar  ← reads cart to show badge count
-   ├─ Product Listing Page
-   │   └─ ProductCard(s)  ← calls addToCart() on click
-   └─ Panier Page         ← reads cart, shows full items, total, quantities
 
 
-![home](/public/cap1.png)
 
-![cart](/public/cap2.png)
 
-![product](/public/cap3.png)
