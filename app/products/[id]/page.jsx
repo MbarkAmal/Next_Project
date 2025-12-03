@@ -3,11 +3,21 @@ import { Heart } from "lucide-react";
 
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { products } from "@/app/data/products";
 import { useCart } from "@/context/CartContext";
 
 export default function ProductDetail() {
+  const [products , setProducts] =useState([]);
+  useEffect(() => {
+    fetch(`/api/products/${id}`)
+    .then((res) => res.json())
+    .then ((data) => {
+      console.log("api resonse :" , data);
+      setProducts(data.data || []) ;
+    })
+  }, []);
+
       const { addToCart } = useCart();
   
   const { id } = useParams();
@@ -18,10 +28,7 @@ const [isLiked, setIsLiked] = useState(false);
 const [selectedColor, setSelectedColor] = useState(null);
 
 
- const [mainImage, setMainImage] = useState(product.image);
-  const [selectedSize, setSelectedSize] = useState(
-    product?.sizes?.[0] || ""
-  );
+
 
   if (!product)
     return (
@@ -34,7 +41,7 @@ const [selectedColor, setSelectedColor] = useState(null);
     <div className="max-w-6xl mx-auto px-6 py-15 grid grid-cols-1 md:grid-cols-2 gap-12">
 <div className="relative w-full h-[500px] bg-gray-100 rounded-xl overflow-hidden group">
   <Image
-    src={mainImage}
+    //src={mainImage}
     alt={product.name}
     fill
     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

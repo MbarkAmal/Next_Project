@@ -28,7 +28,7 @@ export default function ProductCard({ product }) {
       </div>
 
       {/* Product Info */}
-      <Link  href= {`/products/${product.id}`} >
+      <Link  href= {`/products/${product._id}`} >
       <div className="p-4 text-center">
         <h3 className="text-lg font-semibold text-gray-800 mb-1 group-hover:text-indigo-600 transition">
           {product.name}
