@@ -46,11 +46,9 @@ It allows developers to focus on building applications instead of configuring to
 
 ## ⚡ Backend Features
 
-- User authentication (sign up / sign in) with JWT
+- User authentication (sign up / sign in) 
 - CRUD operations for products
-- Order creation and management
 - MongoDB as database (using Mongoose)
-- Node.js / Express API for frontend consumption
 
 ---
 
