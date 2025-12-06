@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function ProductGrid() {
   const [products, setProducts] = useState([]);
+  const [mainImage , setMainImage] = useState([])
 
   useEffect(() => {
     fetch("/api/products")
@@ -12,6 +13,8 @@ export default function ProductGrid() {
       .then((data) => {
         console.log("API RESPONSE:", data);
         setProducts(data.data || []);   // <-- FIX
+             // setMainImage(data.data.image); // main image
+
       });
   }, []);
 

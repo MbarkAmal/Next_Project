@@ -1,17 +1,37 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useState , useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { ShoppingCart, UserRound, Heart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const { cart } = useCart();
-  const [isHovered, setIsHovered] = useState(false);
+    const router = useRouter();
+
+  const [isCartHovered, setIsCartHovered] = useState(false);
+    const [isUserDropdown, setIsUserDropdown] = useState(false);
+  const [user, setUser] = useState(null);
+
 
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+    // Load user from localStorage on component mount
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token"); // if you store a token
+    setUser(null); // remove user from state
+    router.push("/signin");
+  };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="/">
@@ -32,13 +52,12 @@ export default function Navbar() {
 
         {/* Icons / Links */}
         <div className="flex items-center space-x-6">
-          {/* Cart Dropdown on Hover */}
+          {/* Cart Dropdown */}
           <div
             className="relative"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseEnter={() => setIsCartHovered(true)}
+            onMouseLeave={() => setIsCartHovered(false)}
           >
-            {/* Cart Icon */}
             <button className="relative">
               <ShoppingCart className="w-6 h-6 text-[#162660]" />
               {cartCount > 0 && (
@@ -48,10 +67,9 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* Dropdown Cart */}
             <div
-                         className={`absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-white shadow-lg rounded-lg z-50 transition-all duration-300 ${
-                isHovered
+              className={`absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-white shadow-lg rounded-lg z-50 transition-all duration-300 ${
+                isCartHovered
                   ? "opacity-100 translate-y-0 visible"
                   : "opacity-0 -translate-y-2 invisible"
               }`}
@@ -63,7 +81,7 @@ export default function Navbar() {
                   <>
                     {cart.map((item) => (
                       <div
-                        key={item.id}
+                        key={item._id}
                         className="flex items-center mb-3 border-b pb-2"
                       >
                         <img
@@ -94,10 +112,41 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* User + Favorites */}
-          <Link href="/signin">
-            <UserRound className="w-6 h-6 text-[#162660]" />
-          </Link>
+          {/* User Dropdown */}
+          {user ? (
+            <div
+              className="relative"
+              onClick={() => setIsUserDropdown(!isUserDropdown)}
+            >
+              <button>
+                <UserRound className="w-6 h-6 text-[#162660]" />
+              </button>
+
+              {isUserDropdown && (
+                <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg z-50">
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 hover:bg-gray-100 transition"
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
+                  >
+                    Disconnect
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            // If not logged in, show Sign In link
+            <Link href="/signin">
+              <UserRound className="w-6 h-6 text-[#162660]" />
+            </Link>
+          )}
+
+          {/* Favorites */}
           <Heart className="w-6 h-6 text-[#162660]" />
         </div>
       </div>

@@ -1,34 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { users } from "@/app/data/users";
 
 export default function SignInPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    const foundUser = users.find(
-      (user) =>
-        user.email.toLowerCase() === email.toLowerCase() &&
-        user.password === password
-    );
+    try {
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (foundUser) {
-      //  Save fake login session (optional)
-      localStorage.setItem("user", JSON.stringify(foundUser));
+      const data = await res.json();
 
+      if (!res.ok) {
+        setError(data.error || "Invalid email or password");
+        setLoading(false);
+        return;
+      }
+
+      // Optionally: store user in localStorage
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // Redirect to home page
       router.push("/");
-
-      // Clear error
-      setError("");
-    } else {
-      setError(" Invalid email or password");
+    } catch (err) {
+      setError("Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,7 +49,7 @@ export default function SignInPage() {
           Sign In
         </h2>
 
-        <form onSubmit={handleSignIn}>
+        <form  onSubmit={handleSignIn}>
           <input
             type="email"
             placeholder="Email"

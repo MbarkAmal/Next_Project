@@ -1,23 +1,32 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import ProductGrid from "@/components/ProductGrid";
-import { products } from "../data/products";
 
 export default function Products() {
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
 
-  // ✅ Fix: safer filter (handles capitalization + spacing)
-  const filteredProducts = category
-    ? products.filter(
-        (p) =>
-          p.category?.toLowerCase().trim() === category?.toLowerCase().trim()
-      )
-    : products;
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  console.log("URL category:", category);
-  console.log("Filtered Products:", filteredProducts);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(
+          category
+            ? `/api/products/category/${category}`
+            : "/api/products"
+        );
+        const data = await res.json();
+        setFilteredProducts(data.data || []);
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, [category]);
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-10">
@@ -27,16 +36,12 @@ export default function Products() {
         </h1>
 
         {category && (
-          <a
-            href="/products"
-            className="text-sm text-[#162660] hover:underline"
-          >
+          <a href="/products" className="text-sm text-[#162660] hover:underline">
             Clear Filter
           </a>
         )}
       </div>
 
-      {/*  Only show filtered products */}
       {filteredProducts.length > 0 ? (
         <ProductGrid products={filteredProducts} />
       ) : (

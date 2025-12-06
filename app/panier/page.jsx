@@ -5,17 +5,13 @@ import ProductGrid from "@/components/ProductGrid";
 import { products } from "@/app/data/products";
 import { useSearchParams } from "next/navigation";
 import Gallery from "@/components/Gallery";
+import Link from "next/link";
+
 export default function Pannier() {
-  const { cart, setCart, removeFromCart } = useCart();
+  const { cart, setCart, removeFromCart , increaseQuantity, decreaseQuantity } = useCart();
 
 
-  const increaseQuantity = (id) => {
-    setCart(cart.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
-  };
-
-  const decreaseQuantity = (id) => {
-    setCart(cart.map(item => item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item));
-  };
+ 
 
   // Calculations
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -40,7 +36,7 @@ return (
         ) : (
           cart.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="flex flex-col sm:flex-row sm:items-center bg-white border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all"
             >
               {/*  Image */}
@@ -89,15 +85,13 @@ return (
   <div className="flex items-center bg-gray-50 border border-gray-200 rounded-full px-3 py-1">
     {/* Minus or Trash depending on quantity */}
     {item.quantity > 1 ? (
-      <button
-        onClick={() => decreaseQuantity(item.id)}
-        className="px-2 text-gray-700 hover:text-black text-lg"
-      >
+        <button onClick={() => decreaseQuantity(item._id)} className="px-2 text-gray-700 hover:text-black text-lg">
+
         −
       </button>
     ) : (
       <button
-        onClick={() => removeFromCart(item.id)}
+        onClick={() => removeFromCart(item._id)}
         className="px-2 text-gray-400 hover:text-[#162660] transition"
         title="Supprimer l’article"
       >
@@ -109,10 +103,8 @@ return (
     <span className="px-3 text-gray-800 font-medium">{item.quantity}</span>
 
     {/* Plus */}
-    <button
-      onClick={() => increaseQuantity(item.id)}
-      className="px-2 text-gray-700 hover:text-black text-lg"
-    >
+    <button onClick={() => increaseQuantity(item._id)} className="px-2 text-gray-700 hover:text-black text-lg">
+
       +
     </button>
   </div>
@@ -142,9 +134,12 @@ return (
           <span>Order total:</span>
           <span>{total.toFixed(2)} dt</span>
         </div>
+                <Link href="/checkout">
+        
         <button className="w-full bg-[#162660] hover:bg-[#0f1b46] text-white py-3 rounded-lg mt-4 transition">
           complete my order
         </button>
+        </Link>
       </div>
     </div>
   </div>

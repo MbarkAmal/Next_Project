@@ -4,10 +4,10 @@ import { Laptop, Shirt, Sofa, Smartphone ,Brush , Gem, Rose} from "lucide-react"
 
 export default function CategoryGrid({ onSelect }) {
   const categories = [
-    {id :1, name: "Homme", icon: Shirt , key:"Homme", description:"Explore the latest men's fashion, casual wear, and accessories.",},
-    { id :2, name: "Femme", icon: Rose , key:"femme",     description: "Discover chic styles, dresses, and modern outfits for women." },
-    {id :3,  name: "Accessory", icon: Gem ,   key:"accessory",   description: "Complete your look with premium watches, bags, and jewelry.", },
-    { id :4, name: "Beauty", icon: Brush , key:"beauty",     description: "Enhance your glow with makeup, skincare, and beauty essentials.", },
+    {id :1, name: "homme", icon: Shirt , key:"homme", description:"Explore the latest men's fashion, casual wear, and accessories.",},
+    { id :2, name: "femme", icon: Rose , key:"femme",     description: "Discover chic styles, dresses, and modern outfits for women." },
+    {id :3,  name: "accessories", icon: Gem ,   key:"accessory",   description: "Complete your look with premium watches, bags, and jewelry.", },
+    { id :4, name: "beauty", icon: Brush , key:"beauty",     description: "Enhance your glow with makeup, skincare, and beauty essentials.", },
 
   ];
 

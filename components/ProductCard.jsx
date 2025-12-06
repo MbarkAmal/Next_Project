@@ -1,4 +1,6 @@
 import React from "react";
+import { useState } from "react";
+
 import { ShoppingCart } from "lucide-react"; 
 import Link from "next/link"
 import { useCart } from "../context/CartContext";
@@ -6,15 +8,18 @@ import { useCart } from "../context/CartContext";
 export default function ProductCard({ product }) {
     const { addToCart } = useCart();
 
+
+
   return (
    
-    <div 
+    <div  
          className="group relative bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-{/* image product */}
-      <div className="relative">
+      
+
+      <div className="relative" >
         <img
-          src={product.image}
-          alt={product.name}
+  src={product.image}
+          //alt={product.name}
           className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
@@ -26,6 +31,7 @@ export default function ProductCard({ product }) {
           </button>
         </div>
       </div>
+      
 
       {/* Product Info */}
       <Link  href= {`/products/${product._id}`} >
