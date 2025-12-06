@@ -1,7 +1,8 @@
-#  E-commerce Project (Next.js + Tailwind CSS)
-A modern, responsive **e-commerce web application** built with **Next.js**, **Tailwind CSS**, **Lucide Icons**, and **Framer Motion**.  
+# E-commerce Project (Next.js + Tailwind CSS + Node.js + MongoDB)
 
-💡 Why Next.js?
+A modern, responsive **e-commerce web application** built with **Next.js**, **Tailwind CSS**, **Lucide Icons**, **Framer Motion**, and a **Node.js / MongoDB backend**.  
+
+💡 **Why Next.js?**
 
 Next.js is a framework built on top of React.
 
@@ -9,68 +10,21 @@ It makes React production-ready, faster, and SEO-friendly.
 
 It allows developers to focus on building applications instead of configuring tools.
 
-Overview
-![home](/public/cap1.png)
+---
 
+## Overview
+![home](/public/cap1.png)
 ![cart](/public/cap2.png)
 
+---
 
-🗂️ Project Structure
+## 🗂️ Project Structure
 
-ecommerce/
-│
-├── app/                             
-│   ├── layout.jsx                   
-│   ├── page.jsx                     
-│   │
-│   ├── signup/
-│   │   └── page.jsx                 
-│   │
-│   ├── signin/
-│   │   └── page.jsx                 
-│   │
-│   ├── products/
-│   │   ├── page.jsx                 
-│   │   └── [id]/page.jsx            
-│   │
-│   ├── panier/
-│   │   └── page.jsx                 
-│   │
-│   ├── checkout/
-│   │   └── page.jsx                 
-│   │
-│   ├── profile/
-│   │   └── page.jsx                 
-│   │
-│   ├── data/                         
-│   │   ├── products.js				
-│   │   └── users.js					
-│   │
-│   └── globals.css                  
-│
-├── components/
-│   ├── Navbar.jsx
-│   ├── Footer.jsx
-│   ├── ProductCard.jsx
-│   ├── ProductGrid.jsx
-│   ├── CategoryCard.jsx
-│   ├── CategoryGrid.jsx
-│   ├── Slider.jsx
-│   └── Gallery.jsx
-│
-├── context/                        
-│   ├── CartContext.jsx
-│   └── AuthContext.jsx
-│
-├── public/                          
-│
-├── .env.local                      
-├── next.config.mjs                 
-├── package.json
-├── tailwind.config.js               
-└── README.md
+### Frontend (Next.js)
 
-🧠 Technologies Used
+---
+
+## 🧠 Technologies Used
 
 | Category                 | Technologies                                         |
 | ------------------------ | ---------------------------------------------------- |
@@ -79,15 +33,28 @@ ecommerce/
 | **Styling**              | [Tailwind CSS](https://tailwindcss.com/)             |
 | **UI & Icons**           | [Lucide React](https://lucide.dev/)                  |
 | **Animations**           | [Framer Motion](https://www.framer.com/motion/)      |
+| **Backend Runtime**      | [Node.js](https://nodejs.org/)                       |
+| **Database**             | [MongoDB](https://www.mongodb.com/)                  |
+| **Database GUI**         | [MongoDB Compass](https://www.mongodb.com/products/compass) |
 | **Package Manager**      | [npm](https://www.npmjs.com/)                        |
-| **Runtime Environment**  | [Node.js](https://nodejs.org/)                       |
 | **Version Control**      | [Git](https://git-scm.com/)                          |
 | **Hosting / Repository** | [GitHub](https://github.com/)                        |
 | **Code Editor**          | [Visual Studio Code](https://code.visualstudio.com/) |
 | **Browser for Testing**  | Chrome / Edge                                        |
 
+---
 
+## ⚡ Backend Features
 
+- User authentication (sign up / sign in) with JWT
+- CRUD operations for products
+- Order creation and management
+- MongoDB as database (using Mongoose)
+- Node.js / Express API for frontend consumption
 
+---
 
+This structure allows the **Next.js frontend** to communicate with the **Node.js backend** via REST API endpoints, storing all dynamic data in **MongoDB**.
+
+---
 
