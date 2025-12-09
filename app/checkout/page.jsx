@@ -1,12 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/context/CartContext";
 
 export default function CheckoutPage() {
   const { cart, totalPrice } = useCart();
   const [step, setStep] = useState(1);
   const [userInfo, setUserInfo] = useState({
-    name: "",
+    fullName: "",
     email: "",
     phone: "",
     address: "",
@@ -14,15 +14,69 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [orderPlaced, setOrderPlaced] = useState(false);
 
-  const handleChange = (e) => setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+  // Pre-fill user info from localStorage on component mount
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      setUserInfo((prev) => ({
+        ...prev,
+        fullName: user.fullName || "",
+        email: user.email || "",
+      }));
+    }
+  }, []);
+
+  const handleChange = (e) =>
+    setUserInfo({ ...userInfo, [e.target.fullName]: e.target.value });
   const handleNext = () => setStep(step + 1);
   const handleBack = () => setStep(step - 1);
 
-  const handlePlaceOrder = () => {
-    // For now, simulate order placement
-    setOrderPlaced(true);
-    setStep(3);
+  const handlePlaceOrder = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user || !user._id) {
+        alert("You must be logged in to place an order.");
+        return;
+      }
+
+      const orderData = {
+        items: cart.map((item) => ({
+          productId: item._id,
+          quantity: item.quantity,
+          selectedColor: item.selectedColor || null,
+          selectedSize: item.selectedSize || null,
+          price: item.price,
+        })),
+        shippingAddress: {
+          address: userInfo.address,
+          phone: userInfo.phone,
+          city: "Tunis",
+        },
+        paymentMethod: paymentMethod || "cash_on_delivery",
+        total: totalPrice,
+      };
+
+      const res = await fetch(`/api/orders/${user._id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        setOrderPlaced(true);
+        setStep(3);
+      } else {
+        alert("Order failed: " + (result.message || "Unknown error"));
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Failed to place order.");
+    }
   };
+
+  
 
   return (
     <div className="max-w-5xl mx-auto my-12 px-4 sm:px-6 lg:px-8">
@@ -53,7 +107,7 @@ export default function CheckoutPage() {
               type="text"
               name="name"
               placeholder="Full Name"
-              value={userInfo.name}
+              value={userInfo.fullName}
               onChange={handleChange}
               className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 w-full"
             />
@@ -98,7 +152,7 @@ export default function CheckoutPage() {
           <div className="space-y-4 mb-6">
             {cart.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="flex justify-between items-center border-b pb-2 flex-col sm:flex-row"
               >
                 <div className="flex items-center gap-4">
@@ -122,9 +176,9 @@ export default function CheckoutPage() {
               onChange={(e) => setPaymentMethod(e.target.value)}
               className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500"
             >
-              <option value="card">Credit/Debit Card</option>
+              <option value="credit_card">Credit/Debit Card</option>
               <option value="paypal">PayPal</option>
-              <option value="cod">Cash on Delivery</option>
+              <option value="cash_on_delivery">Cash on Delivery</option>
             </select>
           </div>
 
