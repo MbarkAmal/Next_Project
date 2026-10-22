@@ -28,7 +28,7 @@ Configure the variables in `.env.local`:
 |---|---|---|
 | `MONGODB_URI` | MongoDB Atlas or Local connection URI | `mongodb+srv://user:pass@cluster.mongodb.net/ecommerce?retryWrites=true&w=majority` |
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name | `your_cloud_name` |
-| `CLOUDINARY_API_KEY` | Cloudinary API Key | `123456789012345` |
+| `CLOUDINARY_API_KEY` | Cloudinary API Key | `     ` |
 | `CLOUDINARY_API_SECRET` | Cloudinary API Secret | `your_api_secret` |
 | `NEXT_PUBLIC_SITE_URL` | Canonical site URL (used in SEO metadata and sitemap) | `https://your-domain.vercel.app` (or `http://localhost:3000` locally) |
 | `NEXT_PUBLIC_GA_ID` | Google Analytics 4 Measurement ID | `G-XXXXXXXXXX` |
