@@ -8,7 +8,7 @@ export async function POST(req, { params }) {
   try {
     await dbConnect();
 
-    const { userId } = await params; // get userId from URL
+    const { userId } = await params;
     const body = await req.json();
     const { items, shippingAddress, paymentMethod } = body;
 
@@ -20,7 +20,7 @@ export async function POST(req, { params }) {
       );
     }
 
-    // Get user snapshot
+    // Get user
     const user = await User.findById(userId);
     if (!user) {
       return NextResponse.json(
@@ -51,7 +51,7 @@ export async function POST(req, { params }) {
       });
     }
 
-    const shippingCost = 10; // can be dynamic
+    const shippingCost = 10;
     const total = subtotal + shippingCost;
 
     // Create the order
@@ -70,14 +70,15 @@ export async function POST(req, { params }) {
       total,
     });
 
-    return NextResponse.json({
-      success: true,
-      message: "Order created",
-      order: newOrder,
-    });
-
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Order created successfully",
+        order: newOrder,
+      },
+      { status: 201 }
+    );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }

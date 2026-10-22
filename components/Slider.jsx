@@ -2,23 +2,21 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function Slider() {
   const slides = [
     {
-      image:"pub6.jpg",
-     
+      image: "/pub6.jpg",
+      alt: "Seasonal collection banner highlight",
     },
     {
-      image:"/pub.jpg",
-     // title: "Exclusive Fashion Deals",
-      //description: "Get up to 50% off on selected collections.",
-      //buttonText: "Explore",
+      image: "/pub.jpg",
+      alt: "Exclusive fashion trends and modern style",
     },
     {
-      image:"/pub5.jpg",
-     // title: "Style That Speaks",
-
+      image: "/pub5.jpg",
+      alt: "Premium accessories and lifestyle collection",
     },
   ];
 
@@ -33,19 +31,29 @@ export default function Slider() {
   }, [slides.length]);
 
   return (
-    <section className="relative h-[65vh] w-[90vw] mx-auto mt-10 overflow-hidden rounded-2xl shadow-2xl">
+    <section
+      aria-label="Promotional banner slider"
+      className="relative h-[65vh] w-[90vw] mx-auto mt-6 overflow-hidden rounded-2xl shadow-2xl bg-gray-900"
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
-         
-          exit={{ opacity:10 }}
-          transition={{ duration: 1 }}
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${slides[current].image})` }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full h-full"
+          style={{ position: "relative" }}
         >
-          <div className="absolute inset-0" />
-
-         
+          <Image
+            src={slides[current].image}
+            alt={slides[current].alt}
+            fill
+            priority={current === 0}
+            sizes="90vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         </motion.div>
       </AnimatePresence>
 
@@ -54,9 +62,11 @@ export default function Slider() {
         {slides.map((_, index) => (
           <button
             key={index}
+            type="button"
+            aria-label={`Go to slide ${index + 1}`}
             onClick={() => setCurrent(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              current === index ? "bg-white scale-110" : "bg-white/50"
+            className={`w-3 h-3 rounded-full transition-all cursor-pointer ${
+              current === index ? "bg-white scale-125" : "bg-white/60 hover:bg-white"
             }`}
           />
         ))}

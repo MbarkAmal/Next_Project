@@ -1,9 +1,10 @@
 import dbConnect from "@/lib/db";
 import Product from "@/models/Product";
+import { slugify } from "@/lib/slug";
 
 // --------------------
 // GET /api/products
-// Supports ?category=Homme
+// Supports ?category=homme & ?type=trendy
 // --------------------
 export async function GET(req) {
   try {
@@ -11,19 +12,33 @@ export async function GET(req) {
 
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category");
+    const type = searchParams.get("type");
 
     let query = {};
-    if (category) query.category = category;
+    if (category) {
+      let normalized = category.toLowerCase().trim();
+      if (normalized === "accessory") normalized = "accessories";
+      query.category = { $regex: new RegExp(`^${normalized}$`, "i") };
+    }
+    if (type) {
+      query.type = { $regex: new RegExp(`^${type.toLowerCase().trim()}$`, "i") };
+    }
 
-    const products = await Product.find(query);
+    const products = await Product.find(query).sort({ createdAt: -1 });
 
-    return Response.json({
-      success: true,
-      count: products.length,
-      data: products,
-    });
+    return Response.json(
+      {
+        success: true,
+        count: products.length,
+        data: products,
+      },
+      { status: 200 }
+    );
   } catch (error) {
-    return Response.json({ success: false, error: error.message });
+    return Response.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }
 
@@ -35,34 +50,49 @@ export async function POST(req) {
     await dbConnect();
     const body = await req.json();
 
+    if (!body.name) {
+      return Response.json(
+        { success: false, error: "Product name is required" },
+        { status: 400 }
+      );
+    }
+
     if (!body.sku) {
-      return new Response(
-        JSON.stringify({ success: false, error: "SKU is required" }),
+      return Response.json(
+        { success: false, error: "SKU is required" },
         { status: 400 }
       );
     }
 
     // Check for duplicate SKU
-    const existing = await Product.findOne({ sku: body.sku });
-    if (existing) {
-      return new Response(
-        JSON.stringify({ success: false, error: "SKU already exists" }),
+    const existingSku = await Product.findOne({ sku: body.sku });
+    if (existingSku) {
+      return Response.json(
+        { success: false, error: "SKU already exists" },
         { status: 400 }
       );
     }
 
+    // Check or generate slug
+    let slug = body.slug ? slugify(body.slug) : slugify(body.name);
+    let existingSlug = await Product.findOne({ slug });
+    if (existingSlug) {
+      slug = `${slug}-${Date.now().toString().slice(-4)}`;
+    }
+
     const product = await Product.create({
       ...body,
-      image: body.image, // Cloudinary URL
+      slug,
+      image: body.image,
     });
 
-    return new Response(
-      JSON.stringify({ success: true, data: product }),
+    return Response.json(
+      { success: true, data: product },
       { status: 201 }
     );
   } catch (error) {
-    return new Response(
-      JSON.stringify({ success: false, error: error.message }),
+    return Response.json(
+      { success: false, error: error.message },
       { status: 500 }
     );
   }

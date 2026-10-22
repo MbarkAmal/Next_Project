@@ -6,26 +6,54 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   try {
     await dbConnect();
-    const { email, password } = await req.json();
+    const body = await req.json();
+    const { email, password } = body;
+
+    if (!email || !password || typeof email !== "string" || typeof password !== "string") {
+      return NextResponse.json(
+        { success: false, error: "Email and password are required" },
+        { status: 400 }
+      );
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
 
     // Find user
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: cleanEmail });
     if (!user) {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "Invalid email or password" },
+        { status: 400 }
+      );
     }
 
     // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "Invalid email or password" },
+        { status: 400 }
+      );
     }
 
-    // Return user data without password
-    const userData = { ...user.toObject() };
-    delete userData.password;
+    // Exclude password hash from response
+    const userData = {
+      _id: user._id.toString(),
+      fullName: user.fullName,
+      email: user.email,
+      role: user.role,
+      address: user.address,
+      createdAt: user.createdAt,
+    };
 
-    return NextResponse.json({ success: true, user: userData });
+    return NextResponse.json(
+      { success: true, user: userData },
+      { status: 200 }
+    );
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }

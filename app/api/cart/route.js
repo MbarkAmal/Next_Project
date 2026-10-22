@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/db";
 import Cart from "@/models/Cart";
 import Product from "@/models/Product";
+import mongoose from "mongoose";
 
 export async function GET(req) {
   try {
@@ -9,14 +10,20 @@ export async function GET(req) {
     const userId = searchParams.get("userId");
 
     if (!userId) {
-      return Response.json({ success: false, error: "userId missing" });
+      return Response.json(
+        { success: false, error: "userId query parameter is required" },
+        { status: 400 }
+      );
     }
 
     const cart = await Cart.findOne({ userId }).populate("items.product");
 
-    return Response.json({ success: true, cart });
+    return Response.json({ success: true, cart }, { status: 200 });
   } catch (err) {
-    return Response.json({ success: false, error: err.message });
+    return Response.json(
+      { success: false, error: err.message },
+      { status: 500 }
+    );
   }
 }
 
@@ -28,18 +35,30 @@ export async function POST(req) {
     const { userId, productId, color, size, quantity = 1 } = body;
 
     if (!userId || !productId) {
-      return Response.json({ success: false, error: "Missing fields" });
+      return Response.json(
+        { success: false, error: "userId and productId are required" },
+        { status: 400 }
+      );
+    }
+
+    if (quantity < 1) {
+      return Response.json(
+        { success: false, error: "Quantity must be at least 1" },
+        { status: 400 }
+      );
     }
 
     // Check if product exists
     const product = await Product.findById(productId);
     if (!product) {
-      return Response.json({ success: false, error: "Product not found" });
+      return Response.json(
+        { success: false, error: "Product not found" },
+        { status: 404 }
+      );
     }
 
     let cart = await Cart.findOne({ userId });
 
-    // Create cart if not exists
     if (!cart) {
       cart = await Cart.create({
         userId,
@@ -53,10 +72,9 @@ export async function POST(req) {
         ],
       });
 
-      return Response.json({ success: true, cart });
+      return Response.json({ success: true, cart }, { status: 201 });
     }
 
-    // Check if same product + color + size exists
     const existingItem = cart.items.find(
       (item) =>
         item.product.toString() === productId &&
@@ -65,10 +83,8 @@ export async function POST(req) {
     );
 
     if (existingItem) {
-      // Increase quantity
       existingItem.quantity += quantity;
     } else {
-      // Add new item
       cart.items.push({
         product: productId,
         size,
@@ -79,9 +95,12 @@ export async function POST(req) {
 
     await cart.save();
 
-    return Response.json({ success: true, cart });
+    return Response.json({ success: true, cart }, { status: 200 });
   } catch (err) {
-    return Response.json({ success: false, error: err.message });
+    return Response.json(
+      { success: false, error: err.message },
+      { status: 500 }
+    );
   }
 }
 
@@ -92,22 +111,30 @@ export async function PUT(req) {
 
     const { userId, itemId, quantity } = body;
 
-    if (!userId || !itemId) {
-      return Response.json({ success: false, error: "Missing fields" });
+    if (!userId || !itemId || quantity === undefined) {
+      return Response.json(
+        { success: false, error: "userId, itemId and quantity are required" },
+        { status: 400 }
+      );
     }
 
     const cart = await Cart.findOne({ userId });
     if (!cart) {
-      return Response.json({ success: false, error: "Cart not found" });
+      return Response.json(
+        { success: false, error: "Cart not found" },
+        { status: 404 }
+      );
     }
 
     const item = cart.items.id(itemId);
     if (!item) {
-      return Response.json({ success: false, error: "Item not found" });
+      return Response.json(
+        { success: false, error: "Item not found in cart" },
+        { status: 404 }
+      );
     }
 
     if (quantity <= 0) {
-      // Remove item if quantity = 0
       cart.items = cart.items.filter((i) => i._id.toString() !== itemId);
     } else {
       item.quantity = quantity;
@@ -115,9 +142,12 @@ export async function PUT(req) {
 
     await cart.save();
 
-    return Response.json({ success: true, cart });
+    return Response.json({ success: true, cart }, { status: 200 });
   } catch (err) {
-    return Response.json({ success: false, error: err.message });
+    return Response.json(
+      { success: false, error: err.message },
+      { status: 500 }
+    );
   }
 }
 
@@ -129,28 +159,35 @@ export async function DELETE(req) {
     const itemId = searchParams.get("itemId");
 
     if (!userId) {
-      return Response.json({ success: false, error: "userId missing" });
+      return Response.json(
+        { success: false, error: "userId query parameter is required" },
+        { status: 400 }
+      );
     }
 
     const cart = await Cart.findOne({ userId });
     if (!cart) {
-      return Response.json({ success: false, error: "Cart not found" });
+      return Response.json(
+        { success: false, error: "Cart not found" },
+        { status: 404 }
+      );
     }
 
     if (itemId) {
-      // Remove single item
       cart.items = cart.items.filter(
         (item) => item._id.toString() !== itemId
       );
     } else {
-      // Clear entire cart
       cart.items = [];
     }
 
     await cart.save();
 
-    return Response.json({ success: true, cart });
+    return Response.json({ success: true, cart }, { status: 200 });
   } catch (err) {
-    return Response.json({ success: false, error: err.message });
+    return Response.json(
+      { success: false, error: err.message },
+      { status: 500 }
+    );
   }
 }

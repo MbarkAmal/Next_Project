@@ -2,12 +2,25 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { Shirt, Rose, Gem, Brush } from "lucide-react";
+
+const ICONS = {
+  shirt: Shirt,
+  rose: Rose,
+  gem: Gem,
+  brush: Brush,
+};
 
 export default function CategoryCard({ category }) {
-  const Icon = category.icon;
+  if (!category) return null;
+
+  const Icon =
+    typeof category.icon === "string"
+      ? ICONS[category.icon.toLowerCase()] || null
+      : category.icon || null;
 
   return (
-    <Link href={`/products?category=${category.name}`} className="group">
+    <Link href={`/products?category=${category.name || ""}`} className="group">
       <motion.div
         whileHover={{ y: -5, scale: 1.05 }}
         transition={{ duration: 0.3 }}

@@ -6,16 +6,23 @@ export async function GET(req, { params }) {
     await dbConnect();
     const { category } = await params;
 
-    // Find products matching the category
-    const products = await Product.find({ category });
+    let normalized = (category || "").toLowerCase().trim();
+    if (normalized === "accessory") {
+      normalized = "accessories";
+    }
 
-    return new Response(
-      JSON.stringify({ success: true, data: products }),
+    // Case-insensitive regex match for category
+    const products = await Product.find({
+      category: { $regex: new RegExp(`^${normalized}$`, "i") },
+    });
+
+    return Response.json(
+      { success: true, count: products.length, data: products },
       { status: 200 }
     );
   } catch (error) {
-    return new Response(
-      JSON.stringify({ success: false, error: error.message }),
+    return Response.json(
+      { success: false, error: error.message },
       { status: 500 }
     );
   }

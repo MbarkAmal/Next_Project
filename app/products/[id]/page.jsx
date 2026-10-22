@@ -1,147 +1,236 @@
-"use client";
-import { Heart } from "lucide-react";
-import Image from "next/image";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useCart } from "@/context/CartContext";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ChevronRight, ArrowRight } from "lucide-react";
+import { getProductByIdOrSlug, getProducts } from "@/lib/products";
+import ProductDetailClient from "@/components/ProductDetailClient";
+import ProductGrid from "@/components/ProductGrid";
+import JsonLd from "@/components/JsonLd";
 
-export default function ProductDetail() {
-  const [product, setProduct] = useState(null); // ← objet au lieu de []
-  const [mainImage, setMainImage] = useState("");
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [isLiked, setIsLiked] = useState(false);
+export const revalidate = 60;
 
-  const { id } = useParams();
-  const { addToCart } = useCart();
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const product = await getProductByIdOrSlug(id);
 
-  useEffect(() => {
-    fetch(`/api/products/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.data) {
-          console.log (data);
-          setProduct(data.data);
-          setMainImage(data.data.image);
+  if (!product) {
+    return {
+      title: "Product Not Found | Grinato",
+      description: "The requested product does not exist.",
+    };
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const canonicalUrl = `${siteUrl}/products/${product.slug || product._id}`;
+  const imageUrl = product.image.startsWith("http")
+    ? product.image
+    : `${siteUrl}${product.image}`;
+
+  return {
+    title: `${product.name} | Grinato Store`,
+    description: product.description.slice(0, 160),
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: `${product.name} | Grinato Store`,
+      description: product.description.slice(0, 160),
+      url: canonicalUrl,
+      images: [
+        {
+          url: imageUrl,
+          width: 800,
+          height: 800,
+          alt: product.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} | Grinato Store`,
+      description: product.description.slice(0, 160),
+      images: [imageUrl],
+    },
+  };
+}
+
+export default async function ProductDetailPage({ params }) {
+  const { id } = await params;
+  const product = await getProductByIdOrSlug(id);
+
+  if (!product) {
+    notFound();
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const canonicalUrl = `${siteUrl}/products/${product.slug || product._id}`;
+  const imageUrl = product.image.startsWith("http")
+    ? product.image
+    : `${siteUrl}${product.image}`;
+
+  const categoryName = product.category || "Accessories";
+  const capitalizedCategory =
+    categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+
+  // Fetch related products in the same category
+  const categoryProducts = await getProducts({
+    category: product.category,
+    limit: 6,
+  });
+  const relatedProducts = categoryProducts
+    .filter((p) => String(p._id) !== String(product._id))
+    .slice(0, 4);
+
+  // 1. JSON-LD Product Schema
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    image: [imageUrl],
+    description: product.description,
+    sku: product.sku || `GRN-${product._id}`,
+    brand: {
+      "@type": "Brand",
+      name: product.brand || "Grinato",
+    },
+    offers: {
+      "@type": "Offer",
+      url: canonicalUrl,
+      priceCurrency: "TND",
+      price: product.price,
+      availability:
+        product.stock > 0
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+    ...(product.rating && product.rating.count > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: product.rating.rate,
+            reviewCount: product.rating.count,
+          },
         }
-      });
-  }, [id]);
+      : {}),
+  };
 
-  if (!product)
-    return (
-      <div className="text-center py-20 text-gray-500">
-        Product not found.
-      </div>
-    );
+  // 2. JSON-LD BreadcrumbList Schema
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Products",
+        item: `${siteUrl}/products`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: capitalizedCategory,
+        item: `${siteUrl}/products?category=${encodeURIComponent(
+          product.category.toLowerCase()
+        )}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: product.name,
+        item: canonicalUrl,
+      },
+    ],
+  };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-15 grid grid-cols-1 md:grid-cols-2 gap-12">
-      {/* Product Image */}
-      <div className="relative w-full h-[500px] bg-gray-100 rounded-xl overflow-hidden group">
-        {mainImage && (
-          <Image
-            src={mainImage}
-            alt={product.name || "Product image"}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-          />
-        )}
-      </div>
+    <div className="bg-gray-50/40 min-h-screen pb-16">
+      <JsonLd data={productJsonLd} />
+      <JsonLd data={breadcrumbsJsonLd} />
 
-      {/* Product Info */}
-      <div>
-        <div className="flex items-start justify-between mb-4">
-          <h1 className="text-lg md:text-xl font-semibold text-gray-800">
-            {product.name}
-          </h1>
-          <button
-            onClick={() => setIsLiked(!isLiked)}
-            className="transition transform hover:scale-110"
+      {/* Semantic Breadcrumbs navigation */}
+      <nav
+        aria-label="Breadcrumb"
+        className="max-w-7xl mx-auto px-6 pt-6 text-xs text-gray-500"
+      >
+        <ol className="flex items-center space-x-2">
+          <li>
+            <Link href="/" className="hover:text-[#162660] transition font-medium">
+              Accueil
+            </Link>
+          </li>
+          <li>
+            <ChevronRight size={12} className="text-gray-400" />
+          </li>
+          <li>
+            <Link
+              href="/products"
+              className="hover:text-[#162660] transition font-medium"
+            >
+              Catalogue
+            </Link>
+          </li>
+          <li>
+            <ChevronRight size={12} className="text-gray-400" />
+          </li>
+          <li>
+            <Link
+              href={`/products?category=${encodeURIComponent(
+                product.category.toLowerCase()
+              )}`}
+              className="hover:text-[#162660] transition font-medium capitalize"
+            >
+              {capitalizedCategory}
+            </Link>
+          </li>
+          <li>
+            <ChevronRight size={12} className="text-gray-400" />
+          </li>
+          <li
+            className="text-gray-900 font-semibold truncate max-w-xs"
+            aria-current="page"
           >
-            <Heart
-              size={26}
-              className={`transition ${
-                isLiked
-                  ? "fill-red-500 text-red-500"
-                  : "text-gray-400 hover:text-gray-500"
-              }`}
-            />
-          </button>
-        </div>
+            {product.name}
+          </li>
+        </ol>
+      </nav>
 
-        <p className="text-gray-600 mb-4">{product.description}</p>
-        <p className="text-indigo-600 text-xl font-semibold mb-6">
-          ${product.price}
-        </p>
+      {/* Product Detail Interactive Component */}
+      <ProductDetailClient product={product} />
 
-        {/* Colors */}
-        {product.colors && product.colors.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">Colors</h3>
-            <div className="flex gap-3">
-              {product.colors.map((color, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    setSelectedColor(color.name);
-                    if (color.image) setMainImage(color.image);
-                  }}
-                  className={`p-1 border-2 rounded-lg cursor-pointer transition ${
-                    selectedColor === color.name
-                      ? "border-black"
-                      : "border-transparent hover:border-black"
-                  }`}
-                >
-                  {color.image ? (
-                    <Image
-                      src={color.image}
-                      alt={color.name}
-                      width={60}
-                      height={60}
-                      className="rounded-md object-cover"
-                    />
-                  ) : (
-                    <div
-                      className="w-12 h-12 rounded-md"
-                      style={{ backgroundColor: color.hex || "#ccc" }}
-                    ></div>
-                  )}
-                </div>
-              ))}
+      {/* Related Products Section ("Vous aimerez aussi") */}
+      {relatedProducts.length > 0 && (
+        <section className="max-w-7xl mx-auto px-6 pt-16">
+          <div className="border-t border-gray-200 pt-12">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <span className="text-xs uppercase font-extrabold tracking-wider text-amber-600">
+                  Découvrez également
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
+                  Produits similaires en {capitalizedCategory}
+                </h2>
+              </div>
+              <Link
+                href={`/products?category=${encodeURIComponent(
+                  product.category.toLowerCase()
+                )}`}
+                className="text-sm font-semibold text-[#162660] hover:underline flex items-center gap-1"
+              >
+                <span>Voir toute la catégorie</span>
+                <ArrowRight size={15} />
+              </Link>
             </div>
-          </div>
-        )}
 
-        {/* Sizes */}
-        {product.sizes && product.sizes.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">Size</h3>
-            <div className="flex gap-2 flex-wrap">
-              {product.sizes.map((size, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedSize(size)}
-                  className={`px-4 py-2 rounded-md border text-sm font-medium transition ${
-                    selectedSize === size
-                      ? "bg-gray-500 text-white border-gray-500"
-                      : "border-gray-300 hover:border-gray-500"
-                  }`}
-                >
-                  {size.toUpperCase()}
-                </button>
-              ))}
-            </div>
+            <ProductGrid products={relatedProducts} />
           </div>
-        )}
-
-        <button
-          onClick={() => addToCart(product)}
-          className="w-full bg-[#162660] text-white px-6 py-3 rounded-lg font-semibold transition"
-        >
-          Add to Cart
-        </button>
-      </div>
+        </section>
+      )}
     </div>
   );
 }

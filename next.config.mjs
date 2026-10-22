@@ -1,12 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
-  eslint: {
-    // ⚠️ Warning: This allows production builds to complete even with ESLint errors.
-    ignoreDuringBuilds: true,
+  experimental: {
+    turbopackUseSystemTlsCerts: true,
   },
-   images: {
-    domains: ["res.cloudinary.com"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

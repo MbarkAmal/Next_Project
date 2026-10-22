@@ -7,7 +7,10 @@ export async function POST(req) {
     const file = data.get("file");
 
     if (!file) {
-      return NextResponse.json({ error: "No file found" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "No file provided" },
+        { status: 400 }
+      );
     }
 
     // Convert file to buffer
@@ -24,19 +27,23 @@ export async function POST(req) {
         }
       );
 
-      uploadStream.end(buffer); // ⬅️ IMPORTANT: send the buffer to Cloudinary
+      uploadStream.end(buffer);
     });
 
-    return NextResponse.json({
-      success: true,
-      url: uploadedImage.secure_url, // ⬅️ Cloudinary image URL
-      
-    });
-
+    return NextResponse.json(
+      {
+        success: true,
+        url: uploadedImage.secure_url,
+      },
+      { status: 200 }
+    );
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      error: error.message,
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        error: error.message || "Failed to upload file",
+      },
+      { status: 500 }
+    );
   }
 }
