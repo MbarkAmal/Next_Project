@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://grinato.vercel.app";
   const canonicalUrl = `${siteUrl}/products/${product.slug || product._id}`;
   const imageUrl = product.image.startsWith("http")
     ? product.image
@@ -61,7 +61,7 @@ export default async function ProductDetailPage({ params }) {
     notFound();
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://grinato.vercel.app";
   const canonicalUrl = `${siteUrl}/products/${product.slug || product._id}`;
   const imageUrl = product.image.startsWith("http")
     ? product.image

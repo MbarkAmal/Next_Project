@@ -7,15 +7,15 @@ import Image from "next/image";
 export default function Slider() {
   const slides = [
     {
-      image: "/pub6.jpg",
+      image: "/cover.jpg",
       alt: "Seasonal collection banner highlight",
     },
     {
-      image: "/pub.jpg",
+      image: "/cover2.jpg",
       alt: "Exclusive fashion trends and modern style",
     },
     {
-      image: "/pub5.jpg",
+      image: "/cover3.jpg",
       alt: "Premium accessories and lifestyle collection",
     },
   ];

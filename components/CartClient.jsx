@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { Trash2 } from "lucide-react";
 import Gallery from "@/components/Gallery";
+import GalleryClassic from "@/components/GalleryClassic";
 import { trackBeginCheckout } from "@/lib/analytics";
 
 export default function CartClient() {
@@ -158,7 +159,7 @@ export default function CartClient() {
               <span>{total.toFixed(2)} dt</span>
             </div>
             {cart.length > 0 ? (
-              <Link href="/checkout" onClick={handleCheckoutClick}>
+              <Link href="/signin" onClick={handleCheckoutClick}>
                 <button
                   type="button"
                   className="w-full bg-[#162660] hover:bg-[#0f1b46] text-white py-3 rounded-lg mt-4 transition font-semibold cursor-pointer"
@@ -178,7 +179,7 @@ export default function CartClient() {
         </div>
       </div>
 
-      <Gallery />
+      <GalleryClassic  />
     </>
   );
 }

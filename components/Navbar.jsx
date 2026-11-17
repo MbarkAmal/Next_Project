@@ -74,9 +74,9 @@ export default function Navbar() {
           <div className="flex items-center gap-2 justify-center">
             <Sparkles size={14} className="text-amber-300 animate-pulse" />
             <span className="font-medium">
-              Offre Spéciale : <strong>-10%</strong> supplémentaire avec le code{" "}
+              Offre Spéciale : <strong>-10%</strong> supplémentaire
               <span className="bg-amber-400 text-gray-900 px-1.5 py-0.5 rounded font-bold tracking-wider">
-                GRINATO10
+                GRINATO
               </span>
             </span>
           </div>

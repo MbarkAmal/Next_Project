@@ -9,7 +9,7 @@ export const revalidate = 60;
 export async function generateMetadata({ searchParams }) {
   const params = searchParams ? await searchParams : {};
   const category = params.category;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://grinato.vercel.app";
 
   if (category) {
     const formatted = category.charAt(0).toUpperCase() + category.slice(1);

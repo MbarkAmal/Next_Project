@@ -100,6 +100,15 @@ export default function Footer() {
               les accessoires modernes et les produits de beauté d&apos;exception. Qualité
               irréprochable et satisfaction client au cœur de nos engagements.
             </p>
+                        <figure className="border-l-2 border-amber-400 pl-3 py-1 max-w-sm">
+              <blockquote className="text-xs italic text-gray-300 leading-relaxed">
+                &laquo;&nbsp;It&apos;s so great having an addiction. In this life, you need
+                something to take the edge off.&nbsp;&raquo;
+              </blockquote>
+              <figcaption className="mt-1 text-[11px] font-semibold text-amber-300">
+                — Himeno
+              </figcaption>
+            </figure>
 
             <div className="space-y-2 pt-2 text-xs text-gray-300">
               <p className="flex items-center gap-2">
@@ -118,7 +127,7 @@ export default function Footer() {
 
             <div className="flex items-center gap-3 pt-3">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/Grinato"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Facebook"
@@ -135,15 +144,7 @@ export default function Footer() {
               >
                 <Instagram size={16} />
               </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Twitter"
-                className="w-9 h-9 rounded-full bg-[#1b2d6b] hover:bg-[#2542a0] flex items-center justify-center text-white transition hover:scale-110"
-              >
-                <Twitter size={16} />
-              </a>
+             
             </div>
           </div>
 
@@ -256,6 +257,7 @@ export default function Footer() {
 
       {/* 3. Bottom Bar */}
       <div className="border-t border-[#1b2d6b] bg-[#0a122e] text-xs text-gray-400 py-6">
+        
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p>
             &copy; {new Date().getFullYear()}{" "}

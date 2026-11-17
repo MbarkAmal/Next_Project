@@ -35,7 +35,7 @@ export default async function Home({ searchParams }) {
   const displayProducts =
     filteredProducts.length > 0 ? filteredProducts : allProducts.slice(0, 8);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://grinato.vercel.app";
 
   const jsonLdData = {
     "@context": "https://schema.org",
@@ -147,7 +147,7 @@ export default async function Home({ searchParams }) {
               </h3>
               <p className="text-sm text-blue-100 mt-2">
                 Offre valable dans la limite des stocks disponibles. Utilisez le code promo{" "}
-                <span className="font-bold text-amber-300 underline">GRINATO10</span> pour 10% de réduction en plus.
+                <span className="font-bold text-amber-300 underline">GRINATO</span> pour 10% de réduction en plus.
               </p>
             </div>
 
